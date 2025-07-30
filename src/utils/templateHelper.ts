@@ -21,7 +21,7 @@ export async function copyTemplate(templateName: string, projectName: string) {
   try {
     const templatePath = path.resolve(
       __dirname,
-      `../templates/${templateName}`
+      `../../templates/${templateName}`
     );
     const targetPath = path.resolve(process.cwd(), projectName);
 

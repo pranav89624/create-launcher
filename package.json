@@ -8,8 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node ./bin/cli.js",
-    "dev": "tsc --watch"
+    "dev": "tsc && node bin/cli.js"
   },
   "keywords": [],
   "author": "",
