@@ -1,64 +1,63 @@
 import { runPromptFlow, runAskTS, runAskTailwind } from "./prompts.js";
-import { createNextApp } from "./actions/next.js";
-import { createReactApp } from "./actions/react.js";
-import { create11tyApp } from "./actions/11ty.js";
-import { createVanillaApp } from "./actions/vanilla.js";
+import { createProject } from "./actions/index.js";
 import { logger } from "./utils/logger.js";
+import { TemplateType, ProjectConfig } from "./types.js";
 
-async function main() {
+async function main(): Promise<void> {
   try {
+    logger.welcome();
+    
+    logger.step(1, 4, "Getting project details...");
     const { projectName, template } = await runPromptFlow();
 
-    if (!projectName || !template) {
-      logger.warn("Project name and template are required.");
-      process.exit(0);
-    }
+    let useTypeScript = false;
+    let useTailwind = false;
 
-    let useTypeScript: boolean;
-    let useTailwindCSS: boolean;
-
-    if (template === "11ty") {
-      useTypeScript = false;
-      useTailwindCSS = false;
-    } else {
+    // Only ask about TS/Tailwind for frameworks that support them
+    if (template !== TemplateType.ELEVENTY) {
+      logger.step(2, 4, "Configuring options...");
+      
       useTypeScript = await runAskTS();
-      if (useTypeScript) {
-        logger.info("You chose to use TypeScript.");
-      } else {
-        logger.info("You chose not to use TypeScript.");
-      }
-      useTailwindCSS = await runAskTailwind();
-      if (useTailwindCSS) {
-        logger.info("You chose to use Tailwind CSS.");
-      } else {
-        logger.info("You chose not to use Tailwind CSS.");
-      }
+      useTailwind = await runAskTailwind();
+      
+      if (useTypeScript) logger.info("TypeScript enabled");
+      if (useTailwind) logger.info("Tailwind CSS enabled");
+    } else {
+      logger.step(2, 4, "Skipping options (not supported by Eleventy)...");
     }
 
-    switch (template) {
-      case "next":
-        await createNextApp(projectName, useTypeScript, useTailwindCSS);
-        break;
-      case "react":
-        await createReactApp(projectName, useTypeScript, useTailwindCSS);
-        break;
-      case "vanilla":
-        await createVanillaApp(projectName, useTypeScript, useTailwindCSS);
-        break;
-      case "11ty":
-        await create11tyApp(projectName);
-        break;
-      default:
-        logger.error("Invalid template selected.");
-    }
+    const config: ProjectConfig = {
+      name: projectName,
+      template,
+      useTypeScript,
+      useTailwind,
+    };
+
+    logger.step(3, 4, "Creating project...");
+    await createProject(config);
+    
+    logger.step(4, 4, "Setup complete!");
+    logger.completion(projectName);
+
   } catch (error) {
     if (error instanceof Error) {
-      logger.error(`An error occurred: ${error.message}`);
+      if (error.message.includes('cancelled')) {
+        logger.info("Operation cancelled by user.");
+        process.exit(0);
+      } else {
+        logger.error(`An error occurred: ${error.message}`);
+      }
     } else {
       logger.error(`An error occurred: ${String(error)}`);
     }
     process.exit(1);
   }
 }
+
+// Handle process interruption gracefully
+process.on('SIGINT', () => {
+  logger.info('\nOperation cancelled by user.');
+  process.exit(0);
+});
 
 main();
