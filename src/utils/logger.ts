@@ -37,7 +37,7 @@ class Logger {
   }
 
   step(current: number, total: number, msg: string): void {
-    const stepInfo = chalk.blue(`[${current}/${total}]`);
+    const stepInfo = chalk.blue(`\n[${current}/${total}]`);
     console.log(stepInfo, msg);
   }
 
