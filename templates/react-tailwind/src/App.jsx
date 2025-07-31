@@ -12,7 +12,7 @@ const App = () => {
 
       <h1 className="text-[3rem] mb-[1rem]">Welcome Developer !!!</h1>
       <p className="text-[1rem] text-justify">
-        This is a simple React application.
+        This is a simple React + Tailwind application.
       </p>
       <p className="text-[1rem] text-justify">
         Feel free to modify the code and explore!
