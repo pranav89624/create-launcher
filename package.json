@@ -1,19 +1,53 @@
 {
   "name": "create-launcher",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A modern zero config CLI tool to quickly scaffold new projects with popular frameworks and configurations",
+  "main": "./dist/index.js",
   "bin": {
     "create-launcher": "./bin/cli.js"
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc && node bin/cli.js"
+    "dev": "tsc && node bin/cli.js",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cli",
+    "scaffold",
+    "template",
+    "react",
+    "nextjs",
+    "11ty",
+    "typescript",
+    "tailwind",
+    "vite",
+    "boilerplate",
+    "project-generator",
+    "starter-template",
+    "eleventy",
+    "vanilla"
+  ],
+  "author": "Pranav Verma",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pranav89624/create-launcher.git"
+  },
+  "homepage": "https://github.com/pranav89624/create-launcher#readme",
+  "bugs": {
+    "url": "https://github.com/pranav89624/create-launcher/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.1.0",

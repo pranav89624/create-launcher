@@ -22,7 +22,7 @@ export async function runPromptFlow(): Promise<PromptResponse> {
     {
       type: "select",
       name: "template",
-      message: "Select a starter template",
+      message: "Select a starter template (more coming soon):",
       choices: [
         { title: "Next.js", value: TemplateType.NEXT },
         { title: "React (Vite)", value: TemplateType.REACT },
