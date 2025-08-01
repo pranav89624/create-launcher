@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div>
-      <Image src="/create-launcher.png" alt="Create Launcher" width={300} height={200} />
+      <Image src="/create-launcher.webp" alt="Create Launcher" width={300} height={200} />
 
       <h1>Welcome Developer !!!</h1>
       <p>This is a simple Next.js application.</p>

@@ -1,4 +1,4 @@
-# 🚀 11ty Starter
+# 🚀 11ty Starter Template
 
 This is a modern 11ty starter template bootstrapped using [`create-launcher`](https://github.com/pranav89624/create-launcher), a zero config CLI to scaffold your next project in seconds.
 

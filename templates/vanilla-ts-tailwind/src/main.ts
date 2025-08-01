@@ -1,7 +1,7 @@
-import './style.css'
-import createLauncher from "./assets/create-launcher.png";
+import "./style.css";
+import createLauncher from "./assets/create-launcher.webp";
 
-const app = document.querySelector('#app');
+const app = document.querySelector("#app");
 if (app) {
   app.innerHTML = `
     <div>

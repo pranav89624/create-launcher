@@ -30,7 +30,7 @@ This is a modern Next.js + TypeScript starter template bootstrapped using [`crea
 ├── eslint.config.mjs     # ESLint configuration
 ├── next-env.d.ts         # TypeScript environment definitions for Next.js (This file should not be edited)
 ├── tsconfig.json         # TypeScript configuration
-├── next.config.mjs       # Next.js configuration
+├── next.config.ts        # Next.js configuration
 └── package.json          # Project dependencies and scripts
 ```
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import CreateLauncher from "./assets/create-launcher.png";
+import React from "react";
+import CreateLauncher from "./assets/create-launcher.webp";
 
 const App = () => {
   return (
@@ -11,9 +11,11 @@ const App = () => {
       <p>Feel free to modify the code and explore!</p>
       <p>Happy coding!</p>
 
-      <p className='footer'>Project created using <i>Create Launcher</i></p>
+      <p className="footer">
+        Project created using <i>Create Launcher</i>
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

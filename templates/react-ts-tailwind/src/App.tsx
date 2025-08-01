@@ -1,5 +1,5 @@
 import React from "react";
-import CreateLauncher from "./assets/create-launcher.png";
+import CreateLauncher from "./assets/create-launcher.webp";
 
 const App = () => {
   return (

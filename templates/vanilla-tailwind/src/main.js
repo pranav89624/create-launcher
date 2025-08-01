@@ -1,5 +1,5 @@
 import "./style.css";
-import createLauncher from "./assets/create-launcher.png";
+import createLauncher from "./assets/create-launcher.webp";
 
 document.querySelector("#app").innerHTML = `
   <div>
