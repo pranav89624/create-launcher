@@ -1,6 +1,6 @@
 {
   "name": "create-launcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A modern zero config CLI tool to quickly scaffold new projects with popular frameworks and configurations",
   "main": "./dist/index.js",
   "bin": {
