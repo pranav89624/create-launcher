@@ -5,8 +5,15 @@
 <div  align="center">
   <img src="./assets/create-launcher.webp" alt="Create Launcher" width="200">
 </div>
+<br/>
+
 <p align="center">
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  <a href="https://www.npmjs.com/package/create-launcher">
+    <img src="https://img.shields.io/npm/v/create-launcher?color=blue&label=npm" alt="npm version">
+  </a>
+  <a href="https://github.com/pranav89624/create-launcher/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  </a>
   <img src="https://img.shields.io/badge/built%20with-TypeScript-blue" alt="Built with TypeScript">
   <img src="https://img.shields.io/badge/node-%3E%3D16.0.0-blue" alt="Node.js">
 </p>
