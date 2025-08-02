@@ -15,7 +15,7 @@ if (app) {
       Welcome Developer !!!
     </h1>
     <p class="text-[1rem] text-justify">
-      This is a simple Vanilla JavaScript + Tailwind (Vite) application.
+      This is a simple Vanilla TypeScript + Tailwind (Vite) application.
     </p>
     <p class="text-[1rem] text-justify">
       Feel free to modify the code and explore!

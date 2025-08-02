@@ -1,6 +1,6 @@
 {
   "name": "create-launcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern zero config CLI tool to quickly scaffold new projects with popular frameworks and configurations",
   "main": "./dist/index.js",
   "bin": {
@@ -46,20 +46,21 @@
     "bin",
     "templates",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.1.0",
     "@types/prompts": "^2.4.9",
-    "execa": "^9.6.0",
-    "fs-extra": "^11.3.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "chalk": "^5.4.1",
     "degit": "^2.8.4",
+    "execa": "^9.6.0",
+    "fs-extra": "^11.3.0",
     "prompts": "^2.4.2"
   }
 }
