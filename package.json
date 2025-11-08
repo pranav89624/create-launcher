@@ -9,7 +9,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc && node bin/cli.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src bin",
+    "lint:fix": "eslint src bin --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"bin/**/*.js\" \"*.md\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"bin/**/*.js\" \"*.md\"",
+    "type-check": "tsc --noEmit",
+    "validate": "npm run type-check && npm run format:check && npm run lint",
+    "prepare": "husky install"
   },
   "keywords": [
     "cli",
@@ -44,17 +51,28 @@
   "files": [
     "dist",
     "bin",
-    "templates",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
   "devDependencies": {
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^9.39.1",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.1.0",
     "@types/prompts": "^2.4.9",
+    "commitlint": "^20.1.0",
+    "eslint": "^9.39.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.46.3"
   },
   "dependencies": {
     "chalk": "^5.4.1",
