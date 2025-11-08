@@ -1,12 +1,12 @@
-import { runPromptFlow, runAskTS, runAskTailwind } from "./prompts.js";
+import { runPromptFlow, runAskTS, runAskTailwind } from "./prompts/projectPrompts.js";
 import { createProject } from "./actions/index.js";
-import { logger } from "./utils/logger.js";
-import { TemplateType, ProjectConfig } from "./types.js";
+import { logger } from "@core/logger.js";
+import { TemplateType, ProjectConfig } from "@core/types.js";
 
 async function main(): Promise<void> {
   try {
     logger.welcome();
-    
+
     logger.step(1, 4, "Getting project details...");
     const { projectName, template } = await runPromptFlow();
 
@@ -16,10 +16,10 @@ async function main(): Promise<void> {
     // Only ask about TS/Tailwind for frameworks that support them
     if (template !== TemplateType.ELEVENTY) {
       logger.step(2, 4, "Configuring options...");
-      
+
       useTypeScript = await runAskTS();
       useTailwind = await runAskTailwind();
-      
+
       if (useTypeScript) logger.info("TypeScript enabled");
       if (useTailwind) logger.info("Tailwind CSS enabled");
     } else {
@@ -35,13 +35,12 @@ async function main(): Promise<void> {
 
     logger.step(3, 4, "Creating project...");
     await createProject(config);
-    
+
     logger.step(4, 4, "Setup complete!");
     logger.completion(projectName);
-
   } catch (error) {
     if (error instanceof Error) {
-      if (error.message.includes('cancelled')) {
+      if (error.message.includes("cancelled")) {
         logger.info("Operation cancelled by user.");
         process.exit(0);
       } else {
@@ -55,8 +54,8 @@ async function main(): Promise<void> {
 }
 
 // Handle process interruption gracefully
-process.on('SIGINT', () => {
-  logger.info('\nOperation cancelled by user.');
+process.on("SIGINT", () => {
+  logger.info("\nOperation cancelled by user.");
   process.exit(0);
 });
 

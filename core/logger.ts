@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalk from "chalk";
 
 export interface LoggerOptions {
   timestamp?: boolean;
@@ -11,29 +11,27 @@ class Logger {
   constructor(options: LoggerOptions = {}) {
     this.options = { timestamp: false, ...options };
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private formatMessage(level: string, msg: string, color: any): [string, string] {
-    const timestamp = this.options.timestamp 
-      ? `[${new Date().toLocaleTimeString()}] ` 
-      : '';
-    const prefix = this.options.prefix ? `${this.options.prefix} ` : '';
+    const timestamp = this.options.timestamp ? `[${new Date().toLocaleTimeString()}] ` : "";
+    const prefix = this.options.prefix ? `${this.options.prefix} ` : "";
     return [color(`${timestamp}${prefix}${level}`), msg];
   }
 
   info(msg: string): void {
-    console.log(...this.formatMessage('ℹ INFO:', msg, chalk.cyan));
+    console.log(...this.formatMessage("ℹ INFO:", msg, chalk.cyan));
   }
 
   success(msg: string): void {
-    console.log(...this.formatMessage('✓ SUCCESS:', msg, chalk.green));
+    console.log(...this.formatMessage("✓ SUCCESS:", msg, chalk.green));
   }
-
-  warn(msg: string): void {
-    console.log(...this.formatMessage('⚠ WARN:', msg, chalk.yellow));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  warn(msg: string, err: unknown): void {
+    console.log(...this.formatMessage("⚠ WARN:", msg, chalk.yellow));
   }
 
   error(msg: string): void {
-    console.log(...this.formatMessage('✗ ERROR:', msg, chalk.red));
+    console.log(...this.formatMessage("✗ ERROR:", msg, chalk.red));
   }
 
   step(current: number, total: number, msg: string): void {
@@ -42,7 +40,7 @@ class Logger {
   }
 
   welcome(): void {
-    console.log(chalk.blue.bold('\n🚀 Welcome to create-launcher!\n'));
+    console.log(chalk.blue.bold("\n🚀 Welcome to create-launcher!\n"));
   }
 
   completion(projectName: string): void {

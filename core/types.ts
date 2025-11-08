@@ -1,14 +1,14 @@
 export enum TemplateType {
-  NEXT = 'next',
-  REACT = 'react',
-  VANILLA = 'vanilla',
-  ELEVENTY = '11ty'
+  NEXT = "next",
+  REACT = "react",
+  VANILLA = "vanilla",
+  ELEVENTY = "11ty",
 }
 
 export enum PackageManager {
-  NPM = 'npm',
-  YARN = 'yarn',
-  PNPM = 'pnpm'
+  NPM = "npm",
+  YARN = "yarn",
+  PNPM = "pnpm",
 }
 
 export interface ProjectConfig {

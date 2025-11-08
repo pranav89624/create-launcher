@@ -2,12 +2,12 @@
 
 🚀 Thank you for your interest in contributing to **Create Launcher**!
 
-We welcome contributions of all kinds — from bug fixes and new features to templates and docs. Here's how to get started: 
+We welcome contributions of all kinds — from bug fixes and new features to templates and docs. Here's how to get started:
 
 ## 🔧 Development Setup
 
 1. **Fork the repository**
-2. **Clone your fork**  
+2. **Clone your fork**
    ```bash
    git clone https://github.com/your-username/create-launcher.git
    cd create-launcher
@@ -37,11 +37,13 @@ To add a new project template:
 ## ✅ Testing Your Changes
 
 Before submitting a PR, test everything thoroughly:
+
 ```bash
 npm run build     # Compile CLI
 npm run dev       # Optional: run dev script if available
 create-launcher   # Use your linked CLI to test different configurations
 ```
+
 Try generating a few test projects using your new template or changes.
 
 ## 🔁 Pull Request Process

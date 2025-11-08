@@ -13,6 +13,10 @@ export default [
             ecmaVersion: 'latest',
             sourceType: 'module',
             parser: tseslint.parser,
+            parserOptions: {
+                project: './tsconfig.json',
+                tsconfigRootDir: import.meta.dirname,
+            },
             globals: {
                 process: 'readonly',
                 Buffer: 'readonly'

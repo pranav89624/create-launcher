@@ -1,5 +1,5 @@
 import prompts from "prompts";
-import { TemplateType, PackageManager, PromptResponse } from './types.js';
+import { TemplateType, PackageManager, PromptResponse } from "@core/types.js";
 
 function validateProjectName(name: string): string | boolean {
   if (name.trim() === "") return "Name cannot be empty";
@@ -31,12 +31,12 @@ export async function runPromptFlow(): Promise<PromptResponse> {
       ],
     },
   ]);
-  
+
   // Handle user cancellation
   if (!response.projectName || !response.template) {
-    throw new Error('Project creation cancelled by user');
+    throw new Error("Project creation cancelled by user");
   }
-  
+
   return response as PromptResponse;
 }
 
@@ -44,6 +44,7 @@ export async function runPromptFlow(): Promise<PromptResponse> {
  * Asks user for preferred package manager
  */
 export async function askPackageManager(): Promise<PackageManager> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { pm } = await prompts({
     type: "select",
     name: "pm",
@@ -63,6 +64,7 @@ export async function askPackageManager(): Promise<PackageManager> {
  * Asks user if they want to use TypeScript
  */
 export async function runAskTS(): Promise<boolean> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { useTS } = await prompts({
     type: "confirm",
     name: "useTS",
@@ -76,6 +78,7 @@ export async function runAskTS(): Promise<boolean> {
  * Asks user if they want to use Tailwind CSS
  */
 export async function runAskTailwind(): Promise<boolean> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { useTailwind } = await prompts({
     type: "confirm",
     name: "useTailwind",

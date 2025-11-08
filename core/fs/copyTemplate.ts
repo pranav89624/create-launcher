@@ -2,9 +2,9 @@ import fs from "fs-extra";
 import path from "path";
 import { execa } from "execa";
 import { fileURLToPath } from "url";
-import { logger } from "./logger.js";
-import { askPackageManager } from "../prompts.js";
-import { PackageManager } from "../types.js";
+import { logger } from "@core/logger.js";
+import { askPackageManager } from "../../src/prompts/projectPrompts.js";
+import { PackageManager } from "@core/types.js";
 
 // Ensure __dirname is defined for ES modules
 // This is necessary because __dirname is not available in ES module context
@@ -33,18 +33,17 @@ export async function copyTemplate(templateName: string, projectName: string): P
 
   try {
     logger.info(`Creating project from "${templateName}" template...`);
-    
+
     await fs.copy(templatePath, targetPath, {
       overwrite: false,
       errorOnExist: true,
     });
 
     await updatePackageJson(targetPath, projectName);
-    
+
     logger.success(`Project structure created successfully!`);
 
     await installDependencies(targetPath);
-
   } catch (err) {
     // Cleanup on failure
     if (await fs.pathExists(targetPath)) {
@@ -56,7 +55,7 @@ export async function copyTemplate(templateName: string, projectName: string): P
 
 async function updatePackageJson(targetPath: string, projectName: string): Promise<void> {
   const pkgJsonPath = path.join(targetPath, "package.json");
-  
+
   if (await fs.pathExists(pkgJsonPath)) {
     const pkg = await fs.readJson(pkgJsonPath);
     pkg.name = projectName;
@@ -76,10 +75,12 @@ async function installDependencies(targetPath: string): Promise<void> {
       cwd: targetPath,
       stdio: "inherit",
     });
-    
+
     logger.success(`Dependencies installed successfully! 🚀`);
   } catch (err) {
-    logger.warn("Failed to install dependencies automatically.");
-    logger.info(`You can install them manually by running: cd ${path.basename(targetPath)} && ${pkgManager} install`);
+    logger.warn("Failed to install dependencies automatically. Error : ", err);
+    logger.info(
+      `You can install them manually by running: cd ${path.basename(targetPath)} && ${pkgManager} install`
+    );
   }
 }
