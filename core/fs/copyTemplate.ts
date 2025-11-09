@@ -27,7 +27,7 @@ export async function copyTemplate(
   await ensureDir(path.dirname(targetPath));
 
   try {
-    logger.info(`Copying template into "${config.name}"...`);
+    logger.info(`Copied template into "${config.name}"...`);
     await fs.copy(sourcePath, targetPath, { overwrite: false, errorOnExist: true });
 
     await updatePackageJson(targetPath, config.name);

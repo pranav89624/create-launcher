@@ -61,7 +61,7 @@ export async function downloadTemplate(
     await ensureDir(cloneDir);
     await ensureDir(extractedDir);
 
-    onProgress?.("Cloning template via git sparse checkout...");
+    onProgress?.("Cloned template via git sparse checkout...");
     await runGit(
       [
         "clone",
@@ -77,7 +77,7 @@ export async function downloadTemplate(
       timeoutMs
     );
 
-    onProgress?.("Configuring sparse checkout...");
+    onProgress?.("Configured sparse checkout...");
     await runGit(["-C", cloneDir, "sparse-checkout", "set", templatePath], timeoutMs);
 
     const fullTemplatePath = path.join(cloneDir, templatePath);
@@ -94,7 +94,7 @@ export async function downloadTemplate(
       );
     }
 
-    onProgress?.("Preparing template files...");
+    onProgress?.("Prepared template files...");
     await fs.copy(fullTemplatePath, extractedDir);
     context.extractedDir = extractedDir;
 
