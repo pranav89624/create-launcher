@@ -28,9 +28,9 @@ async function main(): Promise<void> {
       if (error.message.includes("cancelled")) {
         logger.info("Operation cancelled by user.");
         process.exit(0);
+      } else {
+        logger.error(`An error occurred: ${error.message}`);
       }
-      logger.error(`An error occurred: ${error.message}`);
-    } else {
       logger.error(`An error occurred: ${String(error)}`);
     }
     process.exit(1);
