@@ -8,18 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.2] - 02-08-2025
 
 ### Changed
+
 - Published package to [npm](https://www.npmjs.com/package/create-launcher)
 - Minor internal refinements to CLI behavior
 - Added `execa` and `fs-extra` for robust command execution
 - Updated development dependencies for stability
 
 ### Added
+
 - Release notes and changelog tracking
 - GitHub Release integration setup
 
 ## [1.0.0] - 02-08-2025
 
 ### Added
+
 - Initial release of create-launcher CLI
 - Support for multiple project templates:
   - Vanilla JavaScript/TypeScript (Vite)
@@ -34,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Template-based project scaffolding
 
 ### Features
+
 - 🚀 Fast project setup
 - 🎨 Multiple styling options
 - 📦 Multiple package manager support
