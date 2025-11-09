@@ -3,12 +3,12 @@ import tseslint from 'typescript-eslint';
 
 export default [
     {
-        ignores: ['node_modules', 'dist', 'build', 'templates/**', 'assets/**', '.husky/**'],
+        ignores: ['node_modules', 'dist', 'build', 'templates/**', 'assets/**', '.husky/**', '.git/**', '.vscode/**', 'bin/**'],
     },
     js.configs.recommended,
     ...tseslint.configs.recommended,
     {
-        files: ['src/**/*.ts', 'bin/**/*.js'],
+        files: ['src/**/*.ts', 'core/**/*.ts'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
@@ -46,9 +46,6 @@ export default [
                 'error',
                 { ignoreRestArgs: false }
             ],
-            '@typescript-eslint/no-unsafe-assignment': 'warn',
-            '@typescript-eslint/no-unsafe-call': 'warn',
-            '@typescript-eslint/no-unsafe-member-access': 'warn',
         }
     }
 ];

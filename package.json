@@ -10,8 +10,8 @@
     "build": "tsc",
     "dev": "tsc && node bin/cli.js",
     "prepublishOnly": "npm run build",
-    "lint": "eslint src bin",
-    "lint:fix": "eslint src bin --fix",
+    "lint": "eslint src core",
+    "lint:fix": "eslint src core --fix",
     "format": "prettier --write \"src/**/*.ts\" \"bin/**/*.js\" \"*.md\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"bin/**/*.js\" \"*.md\"",
     "type-check": "tsc --noEmit",
@@ -62,6 +62,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^20.0.0",
     "@eslint/js": "^9.39.1",
+    "@types/degit": "^2.8.6",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.1.0",
     "@types/prompts": "^2.4.9",
@@ -79,6 +80,8 @@
     "degit": "^2.8.4",
     "execa": "^9.6.0",
     "fs-extra": "^11.3.0",
-    "prompts": "^2.4.2"
+    "ora": "^9.0.0",
+    "prompts": "^2.4.2",
+    "zod": "^4.1.12"
   }
 }
