@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { PackageManager } from "./types.js";
 
 export interface LoggerOptions {
   timestamp?: boolean;
@@ -11,43 +12,66 @@ class Logger {
   constructor(options: LoggerOptions = {}) {
     this.options = { timestamp: false, ...options };
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private formatMessage(level: string, msg: string, color: any): [string, string] {
-    const timestamp = this.options.timestamp ? `[${new Date().toLocaleTimeString()}] ` : "";
-    const prefix = this.options.prefix ? `${this.options.prefix} ` : "";
-    return [color(`${timestamp}${prefix}${level}`), msg];
+
+  private getTimestamp(): string {
+    return this.options.timestamp ? `[${new Date().toLocaleTimeString()}] ` : "";
+  }
+
+  private getPrefix(): string {
+    return this.options.prefix ? `${this.options.prefix} ` : "";
+  }
+
+  private format(level: string, message: string, color: (msg: string) => string): string {
+    return color(`${this.getTimestamp()}${this.getPrefix()}${level} ${message}`);
   }
 
   info(msg: string): void {
-    console.log(...this.formatMessage("ℹ INFO:", msg, chalk.cyan));
+    console.log(this.format("ℹ", msg, chalk.cyan));
   }
 
   success(msg: string): void {
-    console.log(...this.formatMessage("✓ SUCCESS:", msg, chalk.green));
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  warn(msg: string, err: unknown): void {
-    console.log(...this.formatMessage("⚠ WARN:", msg, chalk.yellow));
+    console.log(this.format("✓", msg, chalk.green));
   }
 
-  error(msg: string): void {
-    console.log(...this.formatMessage("✗ ERROR:", msg, chalk.red));
+  warn(msg: string, err?: unknown): void {
+    console.log(this.format("⚠", msg, chalk.yellow));
+    if (err) console.log(chalk.yellow(`  → ${String(err)}`));
+  }
+
+  error(msg: string, err?: unknown): void {
+    console.log(this.format("✗", msg, chalk.red));
+    if (err) console.log(chalk.red(`  → ${String(err)}`));
   }
 
   step(current: number, total: number, msg: string): void {
-    const stepInfo = chalk.blue(`\n[${current}/${total}]`);
-    console.log(stepInfo, msg);
+    console.log(chalk.blue(`\n[${current}/${total}] ${msg}`));
   }
 
   welcome(): void {
     console.log(chalk.blue.bold("\n🚀 Welcome to create-launcher!\n"));
   }
 
-  completion(projectName: string): void {
-    console.log(chalk.green.bold(`\n🎉 Project "${projectName}" created successfully!`));
-    console.log(chalk.gray(`\nNext steps:`));
+  completion(projectName: string, pm: PackageManager, installDeps: boolean): void {
+    console.log(chalk.green.bold(`\n🎉 Project "${projectName}" created successfully!\n`));
+    console.log(chalk.gray("Next steps:"));
     console.log(chalk.gray(`  cd ${projectName}`));
-    console.log(chalk.gray(`  npm run dev\n`));
+    if (!installDeps) {
+      if (pm === PackageManager.YARN) {
+        console.log(chalk.gray(`  yarn && yarn dev\n`));
+      } else if (pm === PackageManager.PNPM) {
+        console.log(chalk.gray(`  pnpm install && pnpm dev\n`));
+      } else {
+        console.log(chalk.gray(`  npm install && npm run dev\n`));
+      }
+    } else {
+      if (pm === PackageManager.YARN) {
+        console.log(chalk.gray(`  yarn dev\n`));
+      } else if (pm === PackageManager.PNPM) {
+        console.log(chalk.gray(`  pnpm dev\n`));
+      } else {
+        console.log(chalk.gray(`  npm run dev\n`));
+      }
+    }
   }
 }
 

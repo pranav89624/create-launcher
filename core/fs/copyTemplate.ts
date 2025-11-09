@@ -1,86 +1,85 @@
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import { execa } from "execa";
-import { fileURLToPath } from "url";
-import { logger } from "@core/logger.js";
-import { askPackageManager } from "../../src/prompts/projectPrompts.js";
-import { PackageManager } from "@core/types.js";
-
-// Ensure __dirname is defined for ES modules
-// This is necessary because __dirname is not available in ES module context
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { logger } from "../logger.js";
+import { NormalizedProjectConfig, PackageManager } from "../types.js";
+import { ensureDir } from "./ensureDir.js";
+import { safeExec } from "../utils/result.js";
 
 /**
- * Copies a local template folder into a new project directory.
- * Also patches package.json with the new project name if present.
- *
- * @param {string} templateName - The folder name under /templates (e.g. "next-ts-tailwind")
- * @param {string} projectName - The new project folder name
+ * Copies template from a source path into project directory,
+ * updates package.json and installs dependencies if enabled.
  */
-export async function copyTemplate(templateName: string, projectName: string): Promise<void> {
-  const templatePath = path.resolve(__dirname, `../../templates/${templateName}`);
-  const targetPath = path.resolve(process.cwd(), projectName);
+export async function copyTemplate(
+  sourcePath: string,
+  config: NormalizedProjectConfig
+): Promise<string> {
+  const targetPath = path.resolve(process.cwd(), config.name);
 
-  // Check if template exists
-  if (!(await fs.pathExists(templatePath))) {
-    throw new Error(`Template "${templateName}" not found at ${templatePath}`);
-  }
-
-  // Check if target directory already exists
   if (await fs.pathExists(targetPath)) {
-    throw new Error(`Directory "${projectName}" already exists`);
+    throw new Error(`Directory "${config.name}" already exists in ${process.cwd()}`);
   }
+
+  if (!(await fs.pathExists(sourcePath))) {
+    throw new Error(`Template source path does not exist: ${sourcePath}`);
+  }
+
+  await ensureDir(path.dirname(targetPath));
 
   try {
-    logger.info(`Creating project from "${templateName}" template...`);
+    logger.info(`Copying template into "${config.name}"...`);
+    await fs.copy(sourcePath, targetPath, { overwrite: false, errorOnExist: true });
 
-    await fs.copy(templatePath, targetPath, {
-      overwrite: false,
-      errorOnExist: true,
-    });
+    await updatePackageJson(targetPath, config.name);
+    logger.success("Template files copied successfully.");
 
-    await updatePackageJson(targetPath, projectName);
-
-    logger.success(`Project structure created successfully!`);
-
-    await installDependencies(targetPath);
-  } catch (err) {
-    // Cleanup on failure
-    if (await fs.pathExists(targetPath)) {
-      await fs.remove(targetPath);
-    }
-    throw err;
+    return targetPath;
+  } catch (error) {
+    logger.error("Project creation failed while copying files.", error);
+    await fs.remove(targetPath).catch(() => undefined);
+    throw error;
   }
 }
 
 async function updatePackageJson(targetPath: string, projectName: string): Promise<void> {
-  const pkgJsonPath = path.join(targetPath, "package.json");
-
-  if (await fs.pathExists(pkgJsonPath)) {
-    const pkg = await fs.readJson(pkgJsonPath);
+  const pkgPath = path.join(targetPath, "package.json");
+  if (await fs.pathExists(pkgPath)) {
+    const pkg = await fs.readJson(pkgPath);
     pkg.name = projectName;
-    await fs.writeJson(pkgJsonPath, pkg, { spaces: 2 });
-    logger.info(`Updated package.json with project name "${projectName}"`);
+    await fs.writeJson(pkgPath, pkg, { spaces: 2 });
+    logger.info(`Updated package.json → name: "${projectName}"`);
   }
 }
 
-async function installDependencies(targetPath: string): Promise<void> {
-  const pkgManager = await askPackageManager();
+export async function installProjectDependencies(
+  targetPath: string,
+  config: NormalizedProjectConfig
+): Promise<void> {
+  if (!config.installDeps) {
+    logger.warn("Skipped dependency installation as requested.");
+    logger.info(`Run "${config.packageManager} install" inside ${config.name} when ready.`);
+    return;
+  }
+
+  const pkgManager = config.packageManager;
   logger.info(`Installing dependencies with ${pkgManager}...`);
 
-  const installCmd = pkgManager === PackageManager.YARN ? [] : ["install"];
+  const installArgs = pkgManager === PackageManager.YARN ? [] : ["install"];
+  const command = pkgManager === PackageManager.YARN ? "yarn" : `${pkgManager} install`;
 
-  try {
-    await execa(pkgManager, installCmd, {
+  const installResult = await safeExec(() =>
+    execa(pkgManager, installArgs, {
       cwd: targetPath,
       stdio: "inherit",
-    });
+    })
+  );
 
-    logger.success(`Dependencies installed successfully! 🚀`);
-  } catch (err) {
-    logger.warn("Failed to install dependencies automatically. Error : ", err);
-    logger.info(
-      `You can install them manually by running: cd ${path.basename(targetPath)} && ${pkgManager} install`
-    );
+  if (installResult.ok) {
+    logger.success("Dependencies installed successfully.");
+    return;
   }
+
+  logger.warn("Automatic dependency installation failed.");
+  logger.info("You can install dependencies manually with the following command:");
+  logger.info(`  cd ${config.name} && ${command}`);
 }
