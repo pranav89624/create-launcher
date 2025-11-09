@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1e1e1e;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1rem;
+  text-align: justify;
+}
+
+.footer {
+  font-size: 1rem;
+  color: #ffffff;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+img {
+  height: 40vh;
+  width: auto;
+  object-fit: contain;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

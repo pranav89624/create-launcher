@@ -5,6 +5,7 @@ import path from "node:path";
 import { ensureDir } from "../fs/ensureDir.js";
 import { TemplateRepositoryConfig } from "../types.js";
 import { safeExec } from "../utils/result.js";
+import { logger } from "../logger.js";
 
 export type DownloadProgressCallback = (message: string) => void;
 
@@ -96,6 +97,8 @@ export async function downloadTemplate(
     onProgress?.("Preparing template files...");
     await fs.copy(fullTemplatePath, extractedDir);
     context.extractedDir = extractedDir;
+
+    logger.success("Template downloaded successfully.");
 
     return {
       localPath: extractedDir,
